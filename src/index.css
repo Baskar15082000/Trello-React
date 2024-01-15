@@ -1,0 +1,55 @@
+.header {
+  background-color: #0055cc;
+
+  height: 10vh;
+}
+.icon {
+  width: 7.5rem;
+}
+.body {
+  height: 90vh;
+}
+.sidebar {
+  background-color: rgb(167, 160, 160);
+  height: 100%;
+  width: 20%;
+}
+.button {
+  color: white;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  font-size: 1.3rem;
+}
+.profile {
+  padding: 4px 2px 4px 6px;
+  border-radius: 50%;
+  color: white;
+  background-color: #033172;
+  margin-left: auto;
+  width: 2rem;
+}
+.board-btn {
+  background-color: transparent;
+  color: white;
+  font-size: 1.5rem;
+
+  cursor: pointer;
+}
+.boards {
+  flex-wrap: wrap;
+}
+.img {
+  width: 100%;
+}
+.bod {
+  width: 250px;
+  border: solid;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  height: 150px;
+  color: white;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  cursor: pointer;
+}
