@@ -74,3 +74,9 @@
   background-color: rgb(218, 209, 209);
   border-radius: 5%;
 }
+.addlistbtnss {
+  height: 4.5rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  width: 13rem;
+}

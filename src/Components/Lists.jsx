@@ -14,12 +14,10 @@ const Lists = () => {
   const [ispopup, setIsPopup] = useState(false);
 
   useEffect(() => {
-    const list = async () => {
-      const l = await getList(id);
-      setLists(l);
-    };
-    list();
-  }, [lists]);
+    getList(id).then((res) => setLists(res));
+
+    console.log("p");
+  }, []);
 
   function addListbtn() {
     setIsClicked((pre) => !pre);
@@ -29,7 +27,9 @@ const Lists = () => {
     console.log(listname);
   }
   function add() {
-    addList(listname, id);
+    addList(listname, id).then(() => {
+      getList(id).then((res) => setLists(res));
+    });
     setListname("");
   }
   function ondelete() {}
@@ -57,7 +57,10 @@ const Lists = () => {
                   {ispopup === e.id && (
                     <div
                       className="delete p-1"
-                      onClick={() => deleteList(e.id)}
+                      onClick={() => {
+                        deleteList(e.id);
+                        add();
+                      }}
                     >
                       Archive this list
                     </div>
@@ -68,20 +71,23 @@ const Lists = () => {
             </div>
           );
         })}
-        <div className="btns m-2 ms-4 h-25">
+        <div className="addlistbtnss mt-2 ms-2  py-2  px-2 bg-light ">
           <button className="buttns_btns border-0" onClick={addListbtn}>
-            Add another list
+            + Add another list
           </button>
           {isclicked && (
             <div>
               <input
+                className="inputlist w-75"
                 type="text"
                 value={listname}
                 onChange={onchange}
                 placeholder="enter list name"
               />
 
-              <button onClick={add}>add</button>
+              <button className="listadd border-0" onClick={add}>
+                add
+              </button>
             </div>
           )}
         </div>

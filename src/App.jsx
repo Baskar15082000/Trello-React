@@ -13,22 +13,25 @@ function App() {
   const [boards, setBoards] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
   const [createBoards, setCreateBoards] = useState("");
+  const [s, sets] = useState(true);
   const [img, setimg] = useState(
     "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/140x93/a83ff322a5d3091e20e94cab796115a9/photo-1704616950334-38157594e3c9.jpg"
   );
 
   useEffect(() => {
-    const f = async () => {
-      const board_ = await board();
-      setBoards(board_);
-    };
-    f();
-  }, [boards]);
+    board().then((res) => setBoards(res));
+
+    sets(false);
+
+    console.log("df");
+  }, []);
 
   function submit(e) {
     e.preventDefault();
-    createBoard(createBoards);
+    createBoard(createBoards).then(() => board().then((res) => setBoards(res)));
     setIsClicked((pre) => !pre);
+    setCreateBoards("");
+    sets(e.target.value);
   }
   function displayCreate() {
     setIsClicked((pre) => !pre);
@@ -39,7 +42,7 @@ function App() {
 
   return (
     <>
-      <NavLink>
+      <NavLink style={{ textDecoration: "none" }}>
         <Header
           onchange={onchange}
           submit={submit}
