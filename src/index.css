@@ -6,13 +6,14 @@
 .icon {
   width: 7.5rem;
 }
-.body {
+.body,
+.lists {
   height: 90vh;
 }
 .sidebar {
   background-color: rgb(167, 160, 160);
   height: 100%;
-  width: 20%;
+  min-width: 17rem;
 }
 .button {
   color: white;
@@ -52,4 +53,24 @@
   background-repeat: no-repeat;
   background-size: 300px;
   cursor: pointer;
+}
+
+.list {
+  width: 10rem;
+  height: 4rem;
+  border: solid;
+  border-width: 1.5px;
+  border-radius: 5px;
+  border-color: gray;
+}
+.add {
+  cursor: pointer;
+}
+.threedot {
+  cursor: pointer;
+}
+.delete {
+  position: absolute;
+  background-color: rgb(218, 209, 209);
+  border-radius: 5%;
 }

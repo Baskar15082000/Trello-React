@@ -1,6 +1,6 @@
 import React from "react";
 import Create from "./Create";
-import { createBoard } from "../Api";
+
 const Header = ({
   submit,
   onchange,

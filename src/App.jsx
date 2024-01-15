@@ -5,6 +5,9 @@ import Header from "./Components/Header";
 import SideBar from "./Components/SideBar";
 import { board } from "./Api";
 import { createBoard } from "./Api";
+import { Routes, Route, NavLink } from "react-router-dom";
+import Createboard from "./Components/Craeteboard";
+import Lists from "./Components/Lists";
 
 function App() {
   const [boards, setBoards] = useState([]);
@@ -36,31 +39,33 @@ function App() {
 
   return (
     <>
-      <Header
-        onchange={onchange}
-        submit={submit}
-        createBoards={createBoards}
-        displayCreate={displayCreate}
-        isClicked={isClicked}
-      />
-      <div className="body d-flex">
-        <SideBar />
-        <div className="boards d-flex m-3 ">
-          {boards.map((e) => {
-            return (
-              <div
-                className="bod mx-2 my-1 py-1 px-2"
-                key={e.id}
-                style={{
-                  backgroundImage: `url(${img})`,
-                }}
-              >
-                {e.name}
+      <NavLink>
+        <Header
+          onchange={onchange}
+          submit={submit}
+          createBoards={createBoards}
+          displayCreate={displayCreate}
+          isClicked={isClicked}
+        />
+      </NavLink>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <div className="body d-flex">
+                <SideBar />
+                <div className="boards d-flex m-2 ">
+                  {boards.map((e) => {
+                    return <Createboard key={e.id} e={e} img={img} />;
+                  })}
+                </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
+            </>
+          }
+        />
+        <Route path="boards/:id" element={<Lists />} />
+      </Routes>
     </>
   );
 }
