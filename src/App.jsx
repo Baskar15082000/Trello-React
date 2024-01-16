@@ -57,7 +57,7 @@ function App() {
             <>
               <div className="body d-flex">
                 <SideBar />
-                <div className="boards d-flex m-2 ">
+                <div className="boards d-flex m-2 mt-5 py-5 ps-3 ">
                   {boards.map((e) => {
                     return <Createboard key={e.id} e={e} img={img} />;
                   })}

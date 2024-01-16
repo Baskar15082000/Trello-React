@@ -6,7 +6,7 @@ const SideBar = () => {
   return (
     <div className="sidebar  ">
       <button
-        className="board-btn ms-3 border-0 mt-2 px-2 "
+        className="board-btn ms-3 border-0 mt-5 pt-5 px-2 "
         onClick={() => Navigate("/")}
       >
         Board

@@ -45,13 +45,16 @@ const Lists = () => {
     });
   }
   return (
-    <div className="lists d-flex">
+    <div className="lists d-flex ">
       <SideBar />
-      <div className="flex1 d-flex">
+      <div className="flex1 d-flex mt-5 pt-5">
         {lists.map((e) => {
           return (
-            <div className="list d-flex flex-column  m-2 px-3 py-1" key={e.id}>
-              <div className="heading d-flex justify-content-between mb-2">
+            <div
+              className="list d-flex flex-column  m-2 px-3 py-1 bg-light "
+              key={e.id}
+            >
+              <div className="heading d-flex justify-content-between px-1 mb-2">
                 <div className="listname ">{e.name}</div>
                 <div className="threedot">
                   <MoreHorizIcon

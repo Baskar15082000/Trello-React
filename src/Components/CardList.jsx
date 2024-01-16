@@ -1,18 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { getCards } from "../Api";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import { addCard } from "../Api";
+import { deleteCard } from "../Api";
+import CreateCards from "./CreateCards";
 
 const CardList = ({ id }) => {
   const [ispopup, setIsPopup] = useState(false);
   const [cards, setCards] = useState([]);
   const [ispopupcreate, setIsPopupCreate] = useState(false);
   const [cardName, setCardName] = useState("");
+
   useEffect(() => {
     getCards(id).then((res) => setCards(res));
   }, []);
 
-  function ondelete(id) {}
+  function ondelete(id) {
+    console.log(id);
+    var t = cards;
+    var c = [];
+    deleteCard(id).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        t.map((e) => {
+          if (e.id !== id) {
+            c.push(e);
+          }
+        });
+        setCards(c);
+      }
+    });
+  }
 
   function onchangecardname(e) {
     setCardName(e.target.value);
@@ -24,12 +42,25 @@ const CardList = ({ id }) => {
     });
   }
   return (
-    <div className="cardsdiv d-flex flex-column">
+    <div className="cardsdiv d-flex flex-column ">
       {cards &&
         cards.map((e) => {
           return (
-            <div className="cardlist d-flex justify-content-between" key={e.id}>
-              <div className="cards_">{e.name}</div>
+            <div
+              className="cardlist d-flex justify-content-between bg-white mb-3 px-1"
+              key={e.id}
+            >
+              <div className="cards_ " style={{ cursor: "pointer" }}>
+                <button
+                  type="button"
+                  class="btn btn-primary border-0 bg-white text-black"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                >
+                  {e.name}
+                </button>
+              </div>
+              <CreateCards title={e.name} />
               <div
                 onClick={() =>
                   setIsPopup((pre) => {
@@ -40,8 +71,9 @@ const CardList = ({ id }) => {
                     }
                   })
                 }
+                style={{ cursor: "pointer" }}
               >
-                <MoreHorizIcon />
+                <EditNoteIcon />
                 {ispopup === e.id && (
                   <div className="delete p-1" onClick={() => ondelete(e.id)}>
                     Archive
@@ -51,7 +83,11 @@ const CardList = ({ id }) => {
             </div>
           );
         })}
-      <div className="add mt-1" onClick={() => setIsPopupCreate(true)}>
+
+      <div
+        className="add mt-3 mb-1 px-1"
+        onClick={() => setIsPopupCreate(true)}
+      >
         + Add a card
       </div>
 
@@ -63,7 +99,7 @@ const CardList = ({ id }) => {
             onChange={onchangecardname}
             placeholder="card name"
           />
-          <div className="addcardspopup d-flex justify-content-between px-4 py-1">
+          <div className="addcardspopup d-flex justify-content-between px-4  py-1">
             <div
               style={{ cursor: "pointer" }}
               onClick={() => setIsPopupCreate(false)}
