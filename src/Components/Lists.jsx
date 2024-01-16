@@ -5,6 +5,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SideBar from "./SideBar";
 import { addList } from "../Api";
 import { deleteList } from "../Api";
+import CardList from "./CardList";
 
 const Lists = () => {
   const [isclicked, setIsClicked] = useState(true);
@@ -27,19 +28,29 @@ const Lists = () => {
     console.log(listname);
   }
   function add() {
-    addList(listname, id).then(() => {
-      getList(id).then((res) => setLists(res));
-    });
+    addList(listname, id).then((res) => setLists((pre) => [...pre, res]));
     setListname("");
   }
-  function ondelete() {}
+
+  function ondelete(id) {
+    var t = lists;
+    var c = [];
+    deleteList(id).then((res) => {
+      t.map((e) => {
+        if (e.id !== res.id) {
+          c.push(e);
+        }
+      });
+      setLists(c);
+    });
+  }
   return (
-    <div className="lists d-flex ">
+    <div className="lists d-flex">
       <SideBar />
       <div className="flex1 d-flex">
         {lists.map((e) => {
           return (
-            <div className="list d-flex flex-column   m-2 px-3 py-1" key={e.id}>
+            <div className="list d-flex flex-column  m-2 px-3 py-1" key={e.id}>
               <div className="heading d-flex justify-content-between mb-2">
                 <div className="listname ">{e.name}</div>
                 <div className="threedot">
@@ -54,20 +65,15 @@ const Lists = () => {
                       })
                     }
                   />
+
                   {ispopup === e.id && (
-                    <div
-                      className="delete p-1"
-                      onClick={() => {
-                        deleteList(e.id);
-                        add();
-                      }}
-                    >
+                    <div className="delete p-1" onClick={() => ondelete(e.id)}>
                       Archive this list
                     </div>
                   )}
                 </div>
               </div>
-              <div className="add">+ Add a card</div>
+              <CardList id={e.id} />
             </div>
           );
         })}
@@ -85,7 +91,7 @@ const Lists = () => {
                 placeholder="enter list name"
               />
 
-              <button className="listadd border-0" onClick={add}>
+              <button className="listadd border-0 m-1" onClick={add}>
                 add
               </button>
             </div>

@@ -9,7 +9,7 @@ const Header = ({
   isClicked,
 }) => {
   return (
-    <div className="header d-flex align-items-center">
+    <div className="header d-flex align-items-center ">
       <img
         className="icon ms-4"
         src="https://trello.com/assets/87e1af770a49ce8e84e3.gif"

@@ -56,8 +56,8 @@
 }
 
 .list {
-  width: 10rem;
-  height: 4rem;
+  width: 13rem;
+  height: fit-content;
   border: solid;
   border-width: 1.5px;
   border-radius: 5px;
@@ -79,4 +79,6 @@
   border-radius: 5px;
   font-size: 0.9rem;
   width: 13rem;
+}
+.listname {
 }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Header from "./Components/Header";
 import SideBar from "./Components/SideBar";
@@ -28,7 +27,7 @@ function App() {
 
   function submit(e) {
     e.preventDefault();
-    createBoard(createBoards).then(() => board().then((res) => setBoards(res)));
+    createBoard(createBoards).then((res) => setBoards((pre) => [...pre, res]));
     setIsClicked((pre) => !pre);
     setCreateBoards("");
     sets(e.target.value);
