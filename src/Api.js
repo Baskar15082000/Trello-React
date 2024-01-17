@@ -9,7 +9,8 @@ export async function board() {
     )
     .then((res) => {
       return res.data;
-    });
+    })
+    .catch((error) => console.log(error));
   return b;
 }
 
@@ -21,7 +22,8 @@ export async function createBoard(name) {
         "&key=bd0e2808d85e15483734c295fe8cb97b&token=ATTA9b9a8dadb96e739eeef13f26ba140e989cb45c80c3cfa9ed0e5a1745d3530e48C4A64BC1",
       { method: "POST" }
     )
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((error) => console.log(error));
   return create;
 }
 
@@ -76,7 +78,8 @@ export async function getCards(id) {
     )
     .then((res) => {
       return res.data;
-    });
+    })
+    .catch((error) => console.log(error));
   return b;
 }
 export async function addCard(name, id) {
@@ -144,7 +147,8 @@ export async function deleteCheckList(cardid, listid) {
         "?key=bd0e2808d85e15483734c295fe8cb97b&token=ATTA9b9a8dadb96e739eeef13f26ba140e989cb45c80c3cfa9ed0e5a1745d3530e48C4A64BC1",
       { method: "DELETE" }
     )
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((error) => console.log(error));
   return b;
 }
 
@@ -157,7 +161,7 @@ export async function getitems(id) {
     )
     .then((res) => res.data)
     .catch((error) => console.log(error));
-  console.log(b);
+
   return b;
 }
 
@@ -173,7 +177,7 @@ export async function createItems(listId, name) {
     )
     .then((res) => res.data)
     .catch((error) => console.log(error));
-  console.log(b);
+
   return b;
 }
 
@@ -187,6 +191,7 @@ export async function deleteItem(listid, itemid) {
         "?key=bd0e2808d85e15483734c295fe8cb97b&token=ATTA9b9a8dadb96e739eeef13f26ba140e989cb45c80c3cfa9ed0e5a1745d3530e48C4A64BC1",
       { method: "DELETE" }
     )
-    .then((res) => res.status);
+    .then((res) => res.status)
+    .then((error) => console.log(error));
   return b;
 }
