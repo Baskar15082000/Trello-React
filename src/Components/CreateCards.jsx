@@ -39,6 +39,7 @@ export default function CreateCards({ title, id }) {
     createCheckList(checklistName, id).then((res) =>
       setCheckList((pre) => [...pre, res])
     );
+    setCheckListName("");
   }
   function deleteChecklist(listId) {
     deleteCheckList(id, listId).then((res) => setCheckList(res));
