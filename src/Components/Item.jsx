@@ -29,17 +29,12 @@ const Item = ({ id }) => {
   }
   function onDelete(itemId) {
     var t = item;
-    var c = [];
+
     deleteItem(id, itemId).then((res) => {
       console.log(res);
-      if (res == 200) {
-        t.map((e) => {
-          if (e.id !== itemId) {
-            c.push(e);
-          }
-        });
-        setItem(c);
-      }
+
+      t = t.filter((e) => itemId != e.id);
+      setItem(t);
     });
   }
 
