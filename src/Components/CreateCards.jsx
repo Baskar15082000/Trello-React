@@ -59,8 +59,8 @@ export default function CreateCards({ title, id }) {
         aria-describedby="modal-modal-description"
       >
         <Box className="p-3 rounded" sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            <h3>{title}</h3>
+          <Typography id="modal-modal-title ">
+            <div style={{ fontSize: "2rem" }}>{title}</div>
           </Typography>
           <div className="checklist d-flex ">
             <div className="cardbox mt-4 pe-5">

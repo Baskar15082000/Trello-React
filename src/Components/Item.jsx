@@ -42,7 +42,10 @@ const Item = ({ id }) => {
     <div>
       {item.map((e) => {
         return (
-          <div className="d-flex m-1 aligh-items-center " key={e.id}>
+          <div
+            className="d-flex m-1 aligh-items-center justify-content-between "
+            key={e.id}
+          >
             <div>
               {" "}
               <span>
@@ -57,14 +60,14 @@ const Item = ({ id }) => {
                 style={{
                   textDecoration: i === e.id ? "line-through" : "none",
                 }}
-                className="me-5"
+                className=""
               >
                 {e.name}
               </span>
             </div>
 
             <button
-              className="border-0 ms-5  py-0 bg-white text-muted"
+              className="border-0 pe-5 me-4  py-0 bg-white text-muted"
               onClick={() => onDelete(e.id)}
             >
               <DeleteForeverIcon />
