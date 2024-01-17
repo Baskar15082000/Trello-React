@@ -91,6 +91,7 @@ const CardList = ({ id }) => {
           />
           <div className="addcardspopup d-flex justify-content-between px-4  py-1">
             <div
+              className="text-danger"
               style={{ cursor: "pointer" }}
               onClick={() => setIsPopupCreate(false)}
             >

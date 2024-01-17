@@ -13,9 +13,8 @@ function App() {
   const [isClicked, setIsClicked] = useState(false);
   const [createBoards, setCreateBoards] = useState("");
   const [s, sets] = useState(true);
-  const [img, setimg] = useState(
-    "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/140x93/a83ff322a5d3091e20e94cab796115a9/photo-1704616950334-38157594e3c9.jpg"
-  );
+  const img =
+    "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/140x93/a83ff322a5d3091e20e94cab796115a9/photo-1704616950334-38157594e3c9.jpg";
 
   useEffect(() => {
     board().then((res) => setBoards(res));
@@ -57,7 +56,7 @@ function App() {
             <>
               <div className="body d-flex">
                 <SideBar />
-                <div className="boards d-flex m-2 mt-5 py-5 ps-3 ">
+                <div className="boards d-flex   py-5">
                   {boards.map((e) => {
                     return <Createboard key={e.id} e={e} img={img} />;
                   })}

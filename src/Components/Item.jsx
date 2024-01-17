@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getitems } from "../Api";
 import { createItems, deleteItem } from "../Api";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const Item = ({ id }) => {
   const [item, setItem] = useState([]);
@@ -68,10 +69,10 @@ const Item = ({ id }) => {
             </div>
 
             <button
-              className="border-0 ms-5  py-0 bg-white text-danger"
+              className="border-0 ms-5  py-0 bg-white text-muted"
               onClick={() => onDelete(e.id)}
             >
-              x
+              <DeleteForeverIcon />
             </button>
           </div>
         );

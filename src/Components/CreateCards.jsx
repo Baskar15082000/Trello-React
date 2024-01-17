@@ -46,7 +46,10 @@ export default function CreateCards({ title, id }) {
 
   return (
     <div>
-      <button className=" text-black border-0 bg-white" onClick={handleOpen}>
+      <button
+        className="cdf  text-black border-0  bg-white "
+        onClick={handleOpen}
+      >
         {title}
       </button>
       <Modal
