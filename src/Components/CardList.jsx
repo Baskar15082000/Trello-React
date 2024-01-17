@@ -50,17 +50,7 @@ const CardList = ({ id }) => {
               className="cardlist d-flex justify-content-between bg-white mb-3 px-1"
               key={e.id}
             >
-              <div className="cards_ " style={{ cursor: "pointer" }}>
-                <button
-                  type="button"
-                  class="btn btn-primary border-0 bg-white text-black"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
-                  {e.name}
-                </button>
-              </div>
-              <CreateCards title={e.name} />
+              <CreateCards title={e.name} id={e.id} />
               <div
                 onClick={() =>
                   setIsPopup((pre) => {

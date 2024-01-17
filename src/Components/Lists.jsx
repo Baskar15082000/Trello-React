@@ -47,7 +47,7 @@ const Lists = () => {
   return (
     <div className="lists d-flex ">
       <SideBar />
-      <div className="flex1 d-flex mt-5 pt-5">
+      <div className="flex1 d-flex mt-5 pt-5 ">
         {lists.map((e) => {
           return (
             <div
