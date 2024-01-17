@@ -55,33 +55,39 @@ export default function CreateCards({ title, id }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className="p-5" sx={style}>
+        <Box className="p-3 rounded" sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {title}
+            <h3>{title}</h3>
           </Typography>
           <div className="checklist d-flex ">
-            <div className="mt-4">
+            <div className="cardbox mt-4 pe-5">
               {checklist.map((e) => {
                 return (
-                  <div className="mb-3" key={e.id}>
+                  <div className="mb-3 " key={e.id}>
                     <LibraryAddCheckOutlinedIcon />
 
                     {e.name}
-                    <button onClick={() => deleteChecklist(e.id)}>
+                    <button
+                      className="border-0 ms-5 "
+                      onClick={() => deleteChecklist(e.id)}
+                    >
                       delete
                     </button>
                     <Item id={e.id} />
-                    <p className="mt-2">Add an item</p>
                   </div>
                 );
               })}
             </div>
-            <div className="ms-5 ps-5 ">
+            <div className="ms-4  mt-3 ">
               <div className="d-flex flex-column  ">
-                <div>add to card</div>
-                <div className="d-flex">
+                <div>Add to card</div>
+                <div className="d-flex mt-3 mb-2">
                   <LibraryAddCheckOutlinedIcon />
-                  <div onClick={() => setDisplayAdd((pre) => !pre)}>
+                  <div
+                    className="ms-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setDisplayAdd((pre) => !pre)}
+                  >
                     Checklist
                   </div>
                 </div>
@@ -96,12 +102,17 @@ export default function CreateCards({ title, id }) {
                         value={checklistName}
                         placeholder="checklist"
                       />
-                      <div className="d-flex">
-                        {" "}
-                        <button onClick={() => setDisplayAdd((pre) => !pre)}>
+                      <div className="d-flex my-2 px-3 bg-info rounded align-items-center justify-content-between">
+                        <button
+                          className="border-0 text-danger bg-transparent  py-0"
+                          style={{ fontSize: "1.2rem" }}
+                          onClick={() => setDisplayAdd((pre) => !pre)}
+                        >
                           x
                         </button>
-                        <div onClick={onsubmit}>Add</div>
+                        <div onClick={onsubmit} style={{ cursor: "pointer" }}>
+                          Add
+                        </div>
                       </div>
                     </div>
                   </div>
