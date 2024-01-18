@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { getitems } from "../Api";
-import { createItems, deleteItem } from "../Api";
+import { createItems, deleteItem, checkItem } from "../Api";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-const Item = ({ id }) => {
+const Item = ({ id, cardid }) => {
   const [item, setItem] = useState([]);
-  const [i, seti] = useState("");
+
   const [isadd, setIsAdd] = useState(false);
   const [itemName, setItemName] = useState("");
+
   useEffect(() => {
     getitems(id).then((res) => setItem(res));
   }, []);
-  function handlechange(e) {
-    var itemId = e.target.id;
-    if (e.target.checked) {
-      seti(itemId);
-    } else {
-      console.log("else");
-      seti("");
-    }
+  function handlechange(id) {
+    let c;
+    var t = [];
+    item.map((e) => {
+      if (id === e.id) {
+        if (e.state === "complete") {
+          e.state = "incomplete";
+          c = e.state;
+        } else {
+          e.state = "complete";
+          c = e.state;
+        }
+      }
+      t.push(e);
+    });
+    setItem(t);
+
+    checkItem(cardid, id, c);
   }
   function onChangeItemName(e) {
     setItemName(e.target.value);
@@ -43,7 +54,7 @@ const Item = ({ id }) => {
       {item.map((e) => {
         return (
           <div
-            className="d-flex m-1 aligh-items-center justify-content-between "
+            className="d-flex m-1 aligh-items-center justify-content-between"
             key={e.id}
           >
             <div>
@@ -52,13 +63,14 @@ const Item = ({ id }) => {
                 <input
                   id={e.id}
                   type="checkbox"
-                  //checked={e.state === "complete" ? true : false}
-                  onChange={handlechange}
+                  checked={e.state === "complete" ? true : false}
+                  onChange={() => handlechange(e.id)}
                 />
               </span>
               <span
                 style={{
-                  textDecoration: i === e.id ? "line-through" : "none",
+                  textDecoration:
+                    e.state === "complete" ? "line-through" : "none",
                 }}
                 className=""
               >
@@ -67,7 +79,7 @@ const Item = ({ id }) => {
             </div>
 
             <button
-              className="border-0 pe-5 me-4  py-0 bg-white text-muted"
+              className="border-0  py-0 bg-white text-muted"
               onClick={() => onDelete(e.id)}
             >
               <DeleteForeverIcon />

@@ -63,21 +63,26 @@ export default function CreateCards({ title, id }) {
           <Typography id="modal-modal-title ">
             <div style={{ fontSize: "2rem" }}>{title}</div>
           </Typography>
-          <div className="checklist d-flex ">
+          <div className="checklist d-flex  ">
             <div className="cardbox mt-4 pe-5">
               {checklist.map((e) => {
                 return (
                   <div className="mb-3 " key={e.id}>
-                    <LibraryAddCheckOutlinedIcon />
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <LibraryAddCheckOutlinedIcon />
 
-                    {e.name}
-                    <button
-                      className="border-0 ms-5 "
-                      onClick={() => deleteChecklist(e.id)}
-                    >
-                      delete
-                    </button>
-                    <Item id={e.id} />
+                        {e.name}
+                      </div>
+
+                      <button
+                        className=" border-0 ms-5"
+                        onClick={() => deleteChecklist(e.id)}
+                      >
+                        delete
+                      </button>
+                    </div>
+                    <Item id={e.id} cardid={id}/>
                   </div>
                 );
               })}

@@ -195,3 +195,15 @@ export async function deleteItem(listid, itemid) {
     .then((error) => console.log(error));
   return b;
 }
+
+export async function checkItem(cardId, itemId,state) {
+  const b = await axios
+    .put(
+      "https://api.trello.com/1/cards/"+cardId+"/checkItem/"+itemId+"?key=bd0e2808d85e15483734c295fe8cb97b&state="+state+"&token=ATTA9b9a8dadb96e739eeef13f26ba140e989cb45c80c3cfa9ed0e5a1745d3530e48C4A64BC1",
+      { method: "PUT" }
+    )
+    .then((res) => res.status)
+    .then((error) => console.log(error));
+  return b;
+}
+//https://api.trello.com/1/cards/$%7BcardId%7D/checkItem/$%7Bid%7D?key=${APIKEY}&state=${stateOfItem}&token=${APITOKEN}

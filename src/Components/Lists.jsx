@@ -6,6 +6,7 @@ import SideBar from "./SideBar";
 import { addList } from "../Api";
 import { deleteList } from "../Api";
 import CardList from "./CardList";
+import LoadingUi from "./LoadingUi";
 
 const Lists = () => {
   const [isclicked, setIsClicked] = useState(true);
@@ -48,38 +49,45 @@ const Lists = () => {
     <div className="lists d-flex  ">
       <SideBar />
       <div className="flex1 d-flex">
-        {lists.map((e) => {
-          return (
-            <div
-              className="list d-flex flex-column  m-2 px-3 py-1 bg-light "
-              key={e.id}
-            >
-              <div className="heading d-flex justify-content-between px-1 mb-2">
-                <div className="listname ">{e.name}</div>
-                <div className="threedot">
-                  <MoreHorizIcon
-                    onClick={() =>
-                      setIsPopup((pre) => {
-                        if (pre === e.id) {
-                          return !pre;
-                        } else {
-                          return e.id;
-                        }
-                      })
-                    }
-                  />
+        {lists.length < 1 ? (
+          <LoadingUi />
+        ) : (
+          lists.map((e) => {
+            return (
+              <div
+                className="list d-flex flex-column  m-2 px-3 py-1 bg-light "
+                key={e.id}
+              >
+                <div className="heading d-flex justify-content-between px-1 mb-2">
+                  <div className="listname ">{e.name}</div>
+                  <div className="threedot">
+                    <MoreHorizIcon
+                      onClick={() =>
+                        setIsPopup((pre) => {
+                          if (pre === e.id) {
+                            return !pre;
+                          } else {
+                            return e.id;
+                          }
+                        })
+                      }
+                    />
 
-                  {ispopup === e.id && (
-                    <div className="delete p-1" onClick={() => ondelete(e.id)}>
-                      Archive this list
-                    </div>
-                  )}
+                    {ispopup === e.id && (
+                      <div
+                        className="delete p-1"
+                        onClick={() => ondelete(e.id)}
+                      >
+                        Archive this list
+                      </div>
+                    )}
+                  </div>
                 </div>
+                <CardList id={e.id} />
               </div>
-              <CardList id={e.id} />
-            </div>
-          );
-        })}
+            );
+          })
+        )}
         <div className="addlistbtnss mt-2 ms-2  py-2  px-2 bg-light ">
           <button className="buttns_btns border-0" onClick={addListbtn}>
             + Add another list

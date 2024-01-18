@@ -8,6 +8,8 @@ import { Routes, Route, NavLink } from "react-router-dom";
 import Createboard from "./Components/Craeteboard";
 import Lists from "./Components/Lists";
 
+import LoadingUi from "./Components/LoadingUi";
+
 function App() {
   const [boards, setBoards] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
@@ -57,9 +59,13 @@ function App() {
               <div className="body d-flex">
                 <SideBar />
                 <div className="boards d-flex   py-5">
-                  {boards.map((e) => {
-                    return <Createboard key={e.id} e={e} img={img} />;
-                  })}
+                  {boards.length < 1 ? (
+                    <LoadingUi />
+                  ) : (
+                    boards.map((e) => {
+                      return <Createboard key={e.id} e={e} img={img} />;
+                    })
+                  )}
                 </div>
               </div>
             </>
