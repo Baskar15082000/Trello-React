@@ -14,9 +14,17 @@ const Lists = () => {
   const { id } = useParams();
   const [lists, setLists] = useState([]);
   const [ispopup, setIsPopup] = useState(false);
+  const [error, setError] = useState(Boolean);
 
   useEffect(() => {
-    getList(id).then((res) => setLists(res));
+    getList(id).then((res) => {
+      if (res === "error") {
+        setError(true);
+      } else {
+        setLists(res);
+        setError(false);
+      }
+    });
 
     console.log("p");
   }, []);
@@ -49,7 +57,9 @@ const Lists = () => {
     <div className="lists d-flex  ">
       <SideBar />
       <div className="flex1 d-flex">
-        {lists.length < 1 ? (
+        {error ? (
+          <div>Request Failed List Not Fetched ...</div>
+        ) : lists.length < 1 ? (
           <LoadingUi />
         ) : (
           lists.map((e) => {
@@ -88,26 +98,28 @@ const Lists = () => {
             );
           })
         )}
-        <div className="addlistbtnss mt-2 ms-2  py-2  px-2 bg-light ">
-          <button className="buttns_btns border-0" onClick={addListbtn}>
-            + Add another list
-          </button>
-          {isclicked && (
-            <div>
-              <input
-                className="inputlist w-75"
-                type="text"
-                value={listname}
-                onChange={onchange}
-                placeholder="enter list name"
-              />
+        {!error && (
+          <div className="addlistbtnss mt-2 ms-2  py-2  px-2 bg-light ">
+            <button className="buttns_btns border-0" onClick={addListbtn}>
+              + Add another list
+            </button>
+            {isclicked && (
+              <div>
+                <input
+                  className="inputlist w-75"
+                  type="text"
+                  value={listname}
+                  onChange={onchange}
+                  placeholder="enter list name"
+                />
 
-              <button className="listadd border-0 m-1" onClick={add}>
-                add
-              </button>
-            </div>
-          )}
-        </div>
+                <button className="listadd border-0 m-1" onClick={add}>
+                  add
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -63,6 +63,7 @@ export default function CreateCards({ title, id }) {
           <Typography id="modal-modal-title ">
             <div style={{ fontSize: "2rem" }}>{title}</div>
           </Typography>
+
           <div className="checklist d-flex  ">
             <div className="cardbox mt-4 pe-5">
               {checklist.map((e) => {
@@ -82,7 +83,7 @@ export default function CreateCards({ title, id }) {
                         delete
                       </button>
                     </div>
-                    <Item id={e.id} cardid={id}/>
+                    <Item id={e.id} cardid={id} />
                   </div>
                 );
               })}

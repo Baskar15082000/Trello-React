@@ -1,16 +1,19 @@
 import axios from "axios";
-const key = "bd0e2808d85e15483734c295fe8cb97b&token";
-const token =
-  "ATTA9b9a8dadb96e739eeef13f26ba140e989cb45c80c3cfa9ed0e5a1745d3530e48C4A64BC1";
+
 export async function board() {
   const b = await axios
     .get(
       "https://api.trello.com/1/members/me/boards?key=bd0e2808d85e15483734c295fe8cb97b&token=ATTA9b9a8dadb96e739eeef13f26ba140e989cb45c80c3cfa9ed0e5a1745d3530e48C4A64BC1"
     )
     .then((res) => {
+      console.log(res.status);
+
       return res.data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log("error");
+      return "error";
+    });
   return b;
 }
 
@@ -37,7 +40,9 @@ export async function getList(id) {
     .then((res) => {
       return res.data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      return "error";
+    });
   return b;
 }
 
@@ -196,14 +201,19 @@ export async function deleteItem(listid, itemid) {
   return b;
 }
 
-export async function checkItem(cardId, itemId,state) {
+export async function checkItem(cardId, itemId, state) {
   const b = await axios
     .put(
-      "https://api.trello.com/1/cards/"+cardId+"/checkItem/"+itemId+"?key=bd0e2808d85e15483734c295fe8cb97b&state="+state+"&token=ATTA9b9a8dadb96e739eeef13f26ba140e989cb45c80c3cfa9ed0e5a1745d3530e48C4A64BC1",
+      "https://api.trello.com/1/cards/" +
+        cardId +
+        "/checkItem/" +
+        itemId +
+        "?key=bd0e2808d85e15483734c295fe8cb97b&state=" +
+        state +
+        "&token=ATTA9b9a8dadb96e739eeef13f26ba140e989cb45c80c3cfa9ed0e5a1745d3530e48C4A64BC1",
       { method: "PUT" }
     )
     .then((res) => res.status)
     .then((error) => console.log(error));
   return b;
 }
-//https://api.trello.com/1/cards/$%7BcardId%7D/checkItem/$%7Bid%7D?key=${APIKEY}&state=${stateOfItem}&token=${APITOKEN}

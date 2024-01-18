@@ -15,15 +15,23 @@ function App() {
   const [isClicked, setIsClicked] = useState(false);
   const [createBoards, setCreateBoards] = useState("");
   const [s, sets] = useState(true);
+  const [error, setError] = useState(Boolean);
+
   const img =
     "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/140x93/a83ff322a5d3091e20e94cab796115a9/photo-1704616950334-38157594e3c9.jpg";
 
   useEffect(() => {
-    board().then((res) => setBoards(res));
+    board().then((res) => {
+      if (res === "error") {
+        console.log(res);
+        setError(true);
+      } else {
+        setBoards(res);
+        setError(false);
+      }
+    });
 
     sets(false);
-
-    console.log("df");
   }, []);
 
   function submit(e) {
@@ -58,8 +66,15 @@ function App() {
             <>
               <div className="body d-flex">
                 <SideBar />
+
                 <div className="boards d-flex   py-5">
-                  {boards.length < 1 ? (
+                  {error ? (
+                    <div className="board h-50 d-flex py-5">
+                      <div>
+                        <h3>Request Failed Boards Not Fetched ...</h3>
+                      </div>
+                    </div>
+                  ) : boards.length < 1 ? (
                     <LoadingUi />
                   ) : (
                     boards.map((e) => {
