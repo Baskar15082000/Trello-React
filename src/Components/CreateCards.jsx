@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutlined";
 import { createCheckList, deleteCheckList } from "../Api";
 import Item from "./Item";
+import DataFetch from "./DataFetch";
 
 const style = {
   position: "absolute",
@@ -27,23 +28,23 @@ export default function CreateCards({ title, id }) {
   const handleClose = () => setOpen(false);
   const [displaAdd, setDisplayAdd] = useState(false);
 
-  useEffect(() => {
-    getCheckList(id).then((res) => setCheckList(res));
-  }, []);
+  // useEffect(() => {
+  //   getCheckList(id).then((res) => setCheckList(res));
+  // }, []);
 
-  function onchange(e) {
-    setCheckListName(e.target.value);
-    console.log(checklistName);
-  }
-  function onsubmit() {
-    createCheckList(checklistName, id).then((res) =>
-      setCheckList((pre) => [...pre, res])
-    );
-    setCheckListName("");
-  }
-  function deleteChecklist(listId) {
-    deleteCheckList(id, listId).then((res) => setCheckList(res));
-  }
+  // function onchange(e) {
+  //   setCheckListName(e.target.value);
+  //   console.log(checklistName);
+  // }
+  // function onsubmit() {
+  //   createCheckList(checklistName, id).then((res) =>
+  //     setCheckList((pre) => [...pre, res])
+  //   );
+  //   setCheckListName("");
+  // }
+  // function deleteChecklist(listId) {
+  //   deleteCheckList(id, listId).then((res) => setCheckList(res));
+  // }
 
   return (
     <div>
@@ -65,7 +66,8 @@ export default function CreateCards({ title, id }) {
           </Typography>
 
           <div className="checklist d-flex  ">
-            <div className="cardbox mt-4 pe-5">
+            <DataFetch id={id} deleteChecklist={deleteChecklist} />
+            {/* <div className="cardbox mt-4 pe-5">
               {checklist.map((e) => {
                 return (
                   <div className="mb-3 " key={e.id}>
@@ -87,7 +89,7 @@ export default function CreateCards({ title, id }) {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
             <div className="ms-4  mt-3 ">
               <div className="d-flex flex-column  ">
                 <div>Add to card</div>
