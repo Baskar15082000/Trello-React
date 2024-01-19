@@ -1,21 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { getitems } from "../Api";
 import { createItems, deleteItem, checkItem } from "../Api";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { reduce } from "./DataFetch";
 
 const Item = ({ id, cardid }) => {
-  const [item, setItem] = useState([]);
+  const initialState = {
+    post: [],
+    error: "",
+  };
+  const [item, dispatch] = useReducer(reduce, initialState);
 
   const [isadd, setIsAdd] = useState(false);
   const [itemName, setItemName] = useState("");
 
   useEffect(() => {
-    getitems(id).then((res) => setItem(res));
+    getitems(id).then((res) =>
+      dispatch({
+        type: "Fetch_Success",
+        payload: res,
+        error: "",
+      })
+    );
   }, []);
   function handlechange(id) {
     let c;
     var t = [];
-    item.map((e) => {
+    item.post.map((e) => {
       if (id === e.id) {
         if (e.state === "complete") {
           e.state = "incomplete";
@@ -27,7 +38,7 @@ const Item = ({ id, cardid }) => {
       }
       t.push(e);
     });
-    setItem(t);
+    dispatch({ type: "Check", payload: t });
 
     checkItem(cardid, id, c);
   }
@@ -35,23 +46,25 @@ const Item = ({ id, cardid }) => {
     setItemName(e.target.value);
   }
   function onsubmit() {
-    createItems(id, itemName).then((res) => setItem((pre) => [...pre, res]));
+    createItems(id, itemName).then((res) =>
+      dispatch({ type: "Add", payload: res })
+    );
     setItemName("");
   }
   function onDelete(itemId) {
-    var t = item;
+    var t = item.post;
 
     deleteItem(id, itemId).then((res) => {
       console.log(res);
 
       t = t.filter((e) => itemId != e.id);
-      setItem(t);
+      dispatch({ type: "Delete", payload: t });
     });
   }
 
   return (
     <div>
-      {item.map((e) => {
+      {item.post.map((e) => {
         return (
           <div
             className="d-flex m-1 aligh-items-center justify-content-between"

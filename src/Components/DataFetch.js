@@ -14,6 +14,10 @@ export const reduce = (state, action) => {
       return { post: action.payload };
     case "Add":
       return { post: [...state.post, action.payload] };
+    case "Check":
+      return {
+        post: action.payload,
+      };
     default:
       return state;
   }

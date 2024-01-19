@@ -19,12 +19,11 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
 };
-
+const initialState = {
+  post: [],
+  error: "",
+};
 export default function CreateCards({ title, id }) {
-  const initialState = {
-    post: [],
-    error: "",
-  };
   const [checklistName, setCheckListName] = useState("");
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -32,6 +31,17 @@ export default function CreateCards({ title, id }) {
   const [displaAdd, setDisplayAdd] = useState(false);
 
   const [checklist, dispatch] = useReducer(reduce, initialState);
+
+  useEffect(() => {
+    getCheckList(id).then((res) =>
+      dispatch({
+        type: "Fetch_Success",
+        payload: res,
+        error: "",
+      })
+    );
+  }, []);
+
   function ondelete(listId) {
     deleteCheckList(id, listId).then((res) =>
       dispatch({ type: "Delete", payload: res })
@@ -67,6 +77,75 @@ export default function CreateCards({ title, id }) {
           <Typography id="modal-modal-title ">
             <div style={{ fontSize: "2rem" }}>{title}</div>
           </Typography>
+
+          <div className="checklist d-flex  ">
+            <div className="checklist d-flex  ">
+              <div className="cardbox mt-4 pe-5">
+                {checklist.post.map((e) => {
+                  return (
+                    <div className="mb-3 " key={e.id}>
+                      <div className="d-flex justify-content-between">
+                        <div>
+                          <LibraryAddCheckOutlinedIcon />
+
+                          {e.name}
+                        </div>
+
+                        <button
+                          className=" border-0 ms-5"
+                          onClick={() => ondelete(e.id)}
+                        >
+                          delete
+                        </button>
+                      </div>
+                      {<Item id={e.id} cardid={id} />}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="ms-4  mt-3 ">
+              <div className="d-flex flex-column  ">
+                <div>Add to card</div>
+                <div className="d-flex mt-3 mb-2">
+                  <LibraryAddCheckOutlinedIcon />
+                  <div
+                    className="ms-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setDisplayAdd((pre) => !pre)}
+                  >
+                    Checklist
+                  </div>
+                </div>
+              </div>
+              <div>
+                {displaAdd && (
+                  <div>
+                    <div className="d-flex flex-column">
+                      <input
+                        type="text"
+                        onChange={onchange}
+                        value={checklistName}
+                        placeholder="checklist"
+                      />
+                      <div className="d-flex my-2 px-3 bg-info rounded align-items-center justify-content-between">
+                        <button
+                          className="border-0 text-danger bg-transparent  py-0"
+                          style={{ fontSize: "1.2rem" }}
+                          onClick={() => setDisplayAdd((pre) => !pre)}
+                        >
+                          x
+                        </button>
+                        <div onClick={onsubmit} style={{ cursor: "pointer" }}>
+                          Add
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </Box>
       </Modal>
     </div>
