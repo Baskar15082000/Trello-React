@@ -7,13 +7,16 @@ import { addList } from "../Api";
 import { deleteList } from "../Api";
 import CardList from "./CardList";
 import LoadingUi from "./LoadingUi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getLists, createNewList, deleteAList } from "../Features/listSlice";
 
 const Lists = () => {
+  const dispatch = useDispatch();
   const [isclicked, setIsClicked] = useState(true);
   const [listname, setListname] = useState("");
   const { id } = useParams();
   const list = useSelector((state) => state.list.data);
+
   const [ispopup, setIsPopup] = useState(false);
   const [error, setError] = useState(Boolean);
 
@@ -22,13 +25,10 @@ const Lists = () => {
       if (res === "error") {
         setError(true);
       } else {
-        //dispatch
-
+        dispatch(getLists(res));
         setError(false);
       }
     });
-
-    console.log("p");
   }, []);
 
   function addListbtn() {
@@ -36,24 +36,14 @@ const Lists = () => {
   }
   function onchange(e) {
     setListname(e.target.value);
-    console.log(listname);
   }
   function add() {
-    addList(listname, id).then((res) => setLists((pre) => [...pre, res]));
+    addList(listname, id).then((res) => dispatch(createNewList(res)));
     setListname("");
   }
 
   function ondelete(id) {
-    var t = lists;
-    var c = [];
-    deleteList(id).then((res) => {
-      t.map((e) => {
-        if (e.id !== res.id) {
-          c.push(e);
-        }
-      });
-      setLists(c);
-    });
+    deleteList(id).then((res) => dispatch(deleteAList(res)));
   }
   return (
     <div className="lists d-flex  ">
@@ -61,10 +51,11 @@ const Lists = () => {
       <div className="flex1 d-flex">
         {error ? (
           <div>Request Failed List Not Fetched ...</div>
-        ) : lists.length < 1 ? (
+        ) : list.length < 1 ? (
           <LoadingUi />
         ) : (
-          lists.map((e) => {
+          list.map((e) => {
+           
             return (
               <div
                 className="list d-flex flex-column  m-2 px-3 py-1 bg-light "

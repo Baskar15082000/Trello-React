@@ -4,32 +4,26 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import { addCard } from "../Api";
 import { deleteCard } from "../Api";
 import CreateCards from "./CreateCards";
+import { useDispatch, useSelector } from "react-redux";
+import { creatNewcard, deleteAcard, getCard } from "../Features/cardSlice";
 
 const CardList = ({ id }) => {
+  const dispatch = useDispatch();
+  const listId = id;
   const [ispopup, setIsPopup] = useState(false);
   const [cards, setCards] = useState([]);
+  const cards_ = useSelector((state) => state.card.data);
   const [ispopupcreate, setIsPopupCreate] = useState(false);
   const [cardName, setCardName] = useState("");
 
   useEffect(() => {
-    getCards(id).then((res) => setCards(res));
+    getCards(id).then((res) => dispatch(getCard({ res, id })));
+
+    // console.log(cards_);
   }, []);
 
   function ondelete(id) {
-    console.log(id);
-    var t = cards;
-    var c = [];
-    deleteCard(id).then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        t.map((e) => {
-          if (e.id !== id) {
-            c.push(e);
-          }
-        });
-        setCards(c);
-      }
-    });
+    deleteCard(id).then((res) => dispatch(deleteAcard({ listId, id })));
   }
 
   function onchangecardname(e) {
@@ -38,41 +32,44 @@ const CardList = ({ id }) => {
   function createCardfun(id) {
     addCard(cardName, id).then((res) => {
       setCardName("");
-      setCards((prev) => [...prev, res]);
+      dispatch(creatNewcard({ id, res }));
     });
   }
   return (
     <div className="cardsdiv d-flex flex-column ">
-      {cards &&
-        cards.map((e) => {
-          return (
-            <div
-              className="cardlist d-flex justify-content-between bg-white mb-3 px-1"
-              key={e.id}
-            >
-              <CreateCards title={e.name} id={e.id} />
+      {cards_.map((e) => {
+        if (e.id == id) {
+          return e.card.map((e) => {
+            return (
               <div
-                onClick={() =>
-                  setIsPopup((pre) => {
-                    if (pre === e.id) {
-                      return !pre;
-                    } else {
-                      return e.id;
-                    }
-                  })
-                }
-                style={{ cursor: "pointer" }}
+                className="cardlist d-flex justify-content-between bg-white mb-3 px-1"
+                key={e.id}
               >
-                <EditNoteIcon />
-                {ispopup === e.id && (
-                  <div className="delete p-1" onClick={() => ondelete(e.id)}>
-                    Archive
-                  </div>
-                )}
+                <CreateCards title={e.name} id={e.id} />
+                <div
+                  onClick={() =>
+                    setIsPopup((pre) => {
+                      if (pre === e.id) {
+                        return !pre;
+                      } else {
+                        return e.id;
+                      }
+                    })
+                  }
+                  style={{ cursor: "pointer" }}
+                >
+                  <EditNoteIcon />
+                  {ispopup === e.id && (
+                    <div className="delete p-1" onClick={() => ondelete(e.id)}>
+                      Archive
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          });
+        }
+      })}
 
       <div
         className="add mt-3 mb-1 px-1"
