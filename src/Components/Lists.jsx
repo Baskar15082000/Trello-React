@@ -7,12 +7,13 @@ import { addList } from "../Api";
 import { deleteList } from "../Api";
 import CardList from "./CardList";
 import LoadingUi from "./LoadingUi";
+import { useSelector } from "react-redux";
 
 const Lists = () => {
   const [isclicked, setIsClicked] = useState(true);
   const [listname, setListname] = useState("");
   const { id } = useParams();
-  const [lists, setLists] = useState([]);
+  const list = useSelector((state) => state.list.data);
   const [ispopup, setIsPopup] = useState(false);
   const [error, setError] = useState(Boolean);
 
@@ -21,7 +22,8 @@ const Lists = () => {
       if (res === "error") {
         setError(true);
       } else {
-        setLists(res);
+        //dispatch
+
         setError(false);
       }
     });

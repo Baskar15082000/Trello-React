@@ -7,11 +7,15 @@ import { createBoard } from "./Api";
 import { Routes, Route, NavLink } from "react-router-dom";
 import Createboard from "./Components/Craeteboard";
 import Lists from "./Components/Lists";
+import { useDispatch, useSelector } from "react-redux";
 
 import LoadingUi from "./Components/LoadingUi";
+import { getBoard, createNewBoard } from "./Features/boardSlice";
 
 function App() {
-  const [boards, setBoards] = useState([]);
+  const dispatch = useDispatch();
+  const boards = useSelector((state) => state.board.data);
+
   const [isClicked, setIsClicked] = useState(false);
   const [createBoards, setCreateBoards] = useState("");
   const [s, sets] = useState(true);
@@ -26,7 +30,8 @@ function App() {
         console.log(res);
         setError(true);
       } else {
-        setBoards(res);
+        dispatch(getBoard(res));
+
         setError(false);
       }
     });
@@ -36,7 +41,8 @@ function App() {
 
   function submit(e) {
     e.preventDefault();
-    createBoard(createBoards).then((res) => setBoards((pre) => [...pre, res]));
+    createBoard(createBoards).then((res) => dispatch(createNewBoard(res)));
+
     setIsClicked((pre) => !pre);
     setCreateBoards("");
     sets(e.target.value);
@@ -74,7 +80,7 @@ function App() {
                         <h3>Request Failed Boards Not Fetched ...</h3>
                       </div>
                     </div>
-                  ) : boards.length < 1 ? (
+                  ) : boards < 1 ? (
                     <LoadingUi />
                   ) : (
                     boards.map((e) => {
