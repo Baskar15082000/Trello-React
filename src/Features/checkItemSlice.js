@@ -39,7 +39,6 @@ const checkItemSlice = createSlice({
       });
     },
     checkBox: (state, action) => {
-      var t = [];
       state.data.map((e) => {
         if (e.id === action.payload.id) {
           e.item.map((e) => {
@@ -50,9 +49,7 @@ const checkItemSlice = createSlice({
                 e.state = "complete";
               }
             }
-            t.push(e);
           });
-          e.item = t;
         }
       });
     },
