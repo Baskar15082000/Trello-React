@@ -11,15 +11,12 @@ const CardList = ({ id }) => {
   const dispatch = useDispatch();
   const listId = id;
   const [ispopup, setIsPopup] = useState(false);
-  const [cards, setCards] = useState([]);
-  const cards_ = useSelector((state) => state.card.data);
+  const cards = useSelector((state) => state.card.data);
   const [ispopupcreate, setIsPopupCreate] = useState(false);
   const [cardName, setCardName] = useState("");
 
   useEffect(() => {
     getCards(id).then((res) => dispatch(getCard({ res, id })));
-
-    // console.log(cards_);
   }, []);
 
   function ondelete(id) {
@@ -37,7 +34,7 @@ const CardList = ({ id }) => {
   }
   return (
     <div className="cardsdiv d-flex flex-column ">
-      {cards_.map((e) => {
+      {cards.map((e) => {
         if (e.id == id) {
           return e.card.map((e) => {
             return (

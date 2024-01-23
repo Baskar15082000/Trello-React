@@ -8,6 +8,12 @@ import { useEffect } from "react";
 import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutlined";
 import { createCheckList, deleteCheckList } from "../Api";
 import Item from "./Item";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getChecklists,
+  deleteAchecklist,
+  creatNewchecklist,
+} from "../Features/checkListSlice";
 
 const style = {
   position: "absolute",
@@ -20,7 +26,8 @@ const style = {
 };
 
 export default function CreateCards({ title, id }) {
-  const [checklist, setCheckList] = useState([]);
+  const dispatch = useDispatch();
+  const checklist = useSelector((state) => state.checkList.data);
   const [checklistName, setCheckListName] = useState("");
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -28,7 +35,9 @@ export default function CreateCards({ title, id }) {
   const [displaAdd, setDisplayAdd] = useState(false);
 
   useEffect(() => {
-    getCheckList(id).then((res) => setCheckList(res));
+    getCheckList(id).then((res) => {
+      dispatch(getChecklists({ id, res }));
+    });
   }, []);
 
   function onchange(e) {
@@ -37,12 +46,14 @@ export default function CreateCards({ title, id }) {
   }
   function onsubmit() {
     createCheckList(checklistName, id).then((res) =>
-      setCheckList((pre) => [...pre, res])
+      dispatch(creatNewchecklist({ id, res }))
     );
     setCheckListName("");
   }
   function deleteChecklist(listId) {
-    deleteCheckList(id, listId).then((res) => setCheckList(res));
+    deleteCheckList(id, listId).then((res) =>
+      dispatch(deleteAchecklist({ id, listId }))
+    );
   }
 
   return (
@@ -67,25 +78,29 @@ export default function CreateCards({ title, id }) {
           <div className="checklist d-flex  ">
             <div className="cardbox mt-4 pe-5">
               {checklist.map((e) => {
-                return (
-                  <div className="mb-3 " key={e.id}>
-                    <div className="d-flex justify-content-between">
-                      <div>
-                        <LibraryAddCheckOutlinedIcon />
+                if (e.id === id) {
+                  return e.checklist.map((e) => {
+                    return (
+                      <div className="mb-3 " key={e.id}>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <LibraryAddCheckOutlinedIcon />
 
-                        {e.name}
+                            {e.name}
+                          </div>
+
+                          <button
+                            className=" border-0 ms-5"
+                            onClick={() => deleteChecklist(e.id)}
+                          >
+                            delete
+                          </button>
+                        </div>
+                        <Item id={e.id} cardid={id} />
                       </div>
-
-                      <button
-                        className=" border-0 ms-5"
-                        onClick={() => deleteChecklist(e.id)}
-                      >
-                        delete
-                      </button>
-                    </div>
-                    <Item id={e.id} cardid={id} />
-                  </div>
-                );
+                    );
+                  });
+                }
               })}
             </div>
             <div className="ms-4  mt-3 ">

@@ -11,7 +11,7 @@ export async function board() {
       return res.data;
     })
     .catch((error) => {
-      console.log("error");
+      // console.log("error");
       return "error";
     });
   return b;

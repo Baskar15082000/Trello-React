@@ -9,28 +9,33 @@ const cardSlice = createSlice({
   initialState,
   reducers: {
     getCard: (state, action) => {
-      var f = true;
+      var notPresent = true;
       state.data.map((e) => {
         if (e.id === action.payload.id) {
-          f = false;
+          notPresent = false;
         }
       });
-      if (f) {
-        state.data.push({ id: action.payload.id, card: action.payload.res });
+      if (notPresent) {
+        return {
+          ...state,
+          data: [
+            ...state.data,
+            { id: action.payload.id, card: action.payload.res },
+          ],
+        };
       }
     },
     creatNewcard: (state, action) => {
       state.data.map((e) => {
         if (e.id === action.payload.id) {
-          e.card.push(action.payload.res);
+          e.card = [...e.card, action.payload.res];
         }
       });
     },
     deleteAcard: (state, action) => {
       state.data.map((e) => {
         if (e.id === action.payload.listId) {
-          const d = e.card.filter((e) => e.id !== action.payload.id);
-          e.card = d;
+          e.card = e.card.filter((e) => e.id !== action.payload.id);
         }
       });
     },
