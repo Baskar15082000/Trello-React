@@ -19,44 +19,40 @@ const Item = ({ id, cardid }) => {
   useEffect(() => {
     getitems(id).then((res) => dispatch(getCheckItems({ id, res })));
   }, []);
-  function handlechange(id) {
+  function handlechange(itemId) {
     let c;
-    var t = [];
     item.map((e) => {
       if (e.id === id) {
         e.item.map((e) => {
-          if (id === e.id) {
+          if (e.id === itemId) {
             if (e.state === "complete") {
-              e.state = "incomplete";
-              c = e.state;
+              c = "incomplete";
             } else {
-              e.state = "complete";
-              c = e.state;
+              c = "complete";
             }
           }
-          t.push(e);
         });
       }
     });
+    dispatch(checkBox({ id, itemId }));
 
-    checkItem(cardid, id, c);
+    checkItem(cardid, itemId, c);
   }
   function onChangeItemName(e) {
     setItemName(e.target.value);
   }
   function onsubmit() {
-    createItems(id, itemName).then((res) => setItem((pre) => [...pre, res]));
+    createItems(id, itemName).then((res) =>
+      dispatch(createNewItem({ id, res }))
+    );
     setItemName("");
   }
   function onDelete(itemId) {
     var t = item;
 
-    deleteItem(id, itemId).then((res) => {
-      console.log(res);
-
-      t = t.filter((e) => itemId != e.id);
-      setItem(t);
-    });
+    deleteItem(id, itemId).then((res) =>
+      dispatch(deleteCheckItem({ id, itemId }))
+    );
   }
 
   return (

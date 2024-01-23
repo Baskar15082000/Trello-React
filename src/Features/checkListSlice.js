@@ -16,7 +16,6 @@ const checklistSlice = createSlice({
         }
       });
       if (notPresent) {
-        console.log(action.payload, action.payload.id);
         return {
           ...state,
           data: [

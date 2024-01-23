@@ -197,7 +197,7 @@ export async function deleteItem(listid, itemid) {
       { method: "DELETE" }
     )
     .then((res) => res.status)
-    .then((error) => console.log(error));
+    .catch((error) => console.log(error));
   return b;
 }
 
@@ -214,6 +214,6 @@ export async function checkItem(cardId, itemId, state) {
       { method: "PUT" }
     )
     .then((res) => console.log(res.status))
-    .then((error) => console.log(error));
+    .catch((error) => console.log(error));
   return b;
 }

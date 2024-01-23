@@ -34,14 +34,25 @@ const checkItemSlice = createSlice({
     deleteCheckItem: (state, action) => {
       state.data.map((e) => {
         if (e.id === action.payload.id) {
-          e.item = e.item.filter((e) => e.id !== itemId);
+          e.item = e.item.filter((e) => e.id !== action.payload.itemId);
         }
       });
     },
     checkBox: (state, action) => {
+      var t = [];
       state.data.map((e) => {
         if (e.id === action.payload.id) {
-          e.item = action.payload.res;
+          e.item.map((e) => {
+            if (e.id === action.payload.itemId) {
+              if (e.state === "complete") {
+                e.state = "incomplete";
+              } else {
+                e.state = "complete";
+              }
+            }
+            t.push(e);
+          });
+          e.item = t;
         }
       });
     },
