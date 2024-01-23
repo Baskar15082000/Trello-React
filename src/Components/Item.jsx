@@ -2,32 +2,42 @@ import React, { useEffect, useState } from "react";
 import { getitems } from "../Api";
 import { createItems, deleteItem, checkItem } from "../Api";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCheckItems,
+  createNewItem,
+  deleteCheckItem,
+  checkBox,
+} from "../Features/checkItemSlice";
 
 const Item = ({ id, cardid }) => {
-  const [item, setItem] = useState([]);
-
+  const dispatch = useDispatch();
+  const item = useSelector((state) => state.checkItem.data);
   const [isadd, setIsAdd] = useState(false);
   const [itemName, setItemName] = useState("");
 
   useEffect(() => {
-    getitems(id).then((res) => setItem(res));
+    getitems(id).then((res) => dispatch(getCheckItems({ id, res })));
   }, []);
   function handlechange(id) {
     let c;
     var t = [];
     item.map((e) => {
-      if (id === e.id) {
-        if (e.state === "complete") {
-          e.state = "incomplete";
-          c = e.state;
-        } else {
-          e.state = "complete";
-          c = e.state;
-        }
+      if (e.id === id) {
+        e.item.map((e) => {
+          if (id === e.id) {
+            if (e.state === "complete") {
+              e.state = "incomplete";
+              c = e.state;
+            } else {
+              e.state = "complete";
+              c = e.state;
+            }
+          }
+          t.push(e);
+        });
       }
-      t.push(e);
     });
-    setItem(t);
 
     checkItem(cardid, id, c);
   }
@@ -52,40 +62,44 @@ const Item = ({ id, cardid }) => {
   return (
     <div>
       {item.map((e) => {
-        return (
-          <div
-            className="d-flex m-1 aligh-items-center justify-content-between"
-            key={e.id}
-          >
-            <div>
-              {" "}
-              <span>
-                <input
-                  id={e.id}
-                  type="checkbox"
-                  checked={e.state === "complete" ? true : false}
-                  onChange={() => handlechange(e.id)}
-                />
-              </span>
-              <span
-                style={{
-                  textDecoration:
-                    e.state === "complete" ? "line-through" : "none",
-                }}
-                className=""
+        if (e.id === id) {
+          return e.item.map((e) => {
+            return (
+              <div
+                className="d-flex m-1 aligh-items-center justify-content-between"
+                key={e.id}
               >
-                {e.name}
-              </span>
-            </div>
+                <div>
+                  {" "}
+                  <span>
+                    <input
+                      id={e.id}
+                      type="checkbox"
+                      checked={e.state === "complete" ? true : false}
+                      onChange={() => handlechange(e.id)}
+                    />
+                  </span>
+                  <span
+                    style={{
+                      textDecoration:
+                        e.state === "complete" ? "line-through" : "none",
+                    }}
+                    className=""
+                  >
+                    {e.name}
+                  </span>
+                </div>
 
-            <button
-              className="border-0  py-0 bg-white text-muted"
-              onClick={() => onDelete(e.id)}
-            >
-              <DeleteForeverIcon />
-            </button>
-          </div>
-        );
+                <button
+                  className="border-0  py-0 bg-white text-muted"
+                  onClick={() => onDelete(e.id)}
+                >
+                  <DeleteForeverIcon />
+                </button>
+              </div>
+            );
+          });
+        }
       })}
       <div>
         <div
